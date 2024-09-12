@@ -9,19 +9,18 @@ body{
     flex-direction: column;
     min-height: 100vh;
     width: 100%; 
+    background-image: url("bkgrd.png");
+    overflow: hidden;
+    background-size: cover;
 }
 
 .hero-container{
-    background-image: url("bkgrd.png");
     overflow: hidden;
     background-size: cover;
     width: 100%;
     height: 100vh;
 }
-.overlay{
-    filter: blur(8px);
-  -webkit-filter: blur(8px);
-}
+
 .index-header {
     display: flex;
     align-items: center;
@@ -49,8 +48,9 @@ li button{
     border: 0cap;
     border-radius: 5px;
     padding: 8px;
-    width: 70px;
+    width: 90px;
     height: 100%;
+    cursor: pointer;
     background-color: transparent;
     transition: transform 0.3s ease-in-out;
 }
@@ -66,14 +66,6 @@ li a{
     color: rgb(12, 6, 15);
     font-family: monospace;
 }
-
-
-.below-hero{
-    height: 85vh;
-    width: 100%;
-    background-color: rgb(140, 148, 140);
-}
-
 li button:hover {
     transform: scale(1.1);
     background-color: rgb(198, 203, 200);
@@ -83,8 +75,42 @@ li button:hover::after{
     transform: scale(0);
 }
 
-.footer{
-    height: 15vh;
-    width: 100%;
-    background-color: rgb(88, 132, 88);
+.hero-items{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 200px;
+}
+
+.name{
+    text-decoration: none;
+    font-size: 65px;
+    font-weight: bold;
+    -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+    color: rgb(255, 255, 255);
+    font-family: monospace;
+    margin-bottom: 50px;
+}
+
+.hero-button{
+    border: 0cap;
+    border-radius: 5px;
+    padding: 8px;
+    width: 70px;
+    height: 100%;
+    background-color: rgba(18, 197, 33, 0.471);
+    color: aqua;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.hero-button:hover {
+    transform: scale(1.1);
+    background-color: rgb(18, 10, 250);
+    box-shadow: 0 0 5px hsl(110, 27%, 4%);
+}
+.hero-button:hover::after{
+    transform: scale(0);
 }
