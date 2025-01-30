@@ -97,7 +97,7 @@ button:hover{
     }
 
     .nav-links li {
-        margin: 5px 15px;
+        margin: 5px 20px;
     }
 
     .links {
@@ -108,7 +108,7 @@ button:hover{
 @media (max-width: 400px) { 
     .nav {
         width: 80%;
-        padding: 0 5px;
+        padding: 0 8px;
     }
 
     .nav-links li {
