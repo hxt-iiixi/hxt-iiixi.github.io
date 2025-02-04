@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.cdnfonts.com/css/pemberton-marsden-script" rel="stylesheet">
 </head>
+<style>
+    @import url('https://fonts.cdnfonts.com/css/pemberton-marsden-script');
+</style>
+
+
+
+
 <body>
     <nav class="nav">
         <ul class="nav-links">
@@ -15,20 +23,53 @@
             <li><button><a href=""  class="links">TIMELINE</a></button></li>
         </ul>
     </nav>
+
     <section class="gallery">
         <h2>GALLERY</h2>
         <div class="gallery-grid">
-            <div class="gallery-item"><img src="sample.png" alt="Photo 1"></div>
-            <div class="gallery-item"><img src="sample.png" alt="Photo 2"></div>
-            <div class="gallery-item"><img src="sample.png" alt="Photo 3"></div>
-            <div class="gallery-item"><img src="sample.png" alt="Photo 4"></div>
-            <div class="gallery-item"><img src="sample.png" alt="Photo 5"></div>
-            <div class="gallery-item"><img src="sample.png" alt="Photo 6"></div>
-            <div class="gallery-item"><img src="sample.png" alt="Photo 4"></div>
-            <div class="gallery-item"><img src="sample.png" alt="Photo 5"></div>
-            <div class="gallery-item"><img src="sample.png" alt="Photo 6"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 1"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 2"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 3"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 4"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 5"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 6"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 4"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 5"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 6"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 4"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 5"></div>
+            <div class="gallery-item fade-in"><img src="sample.png" alt="Photo 6"></div>
         </div>
     </section>
 
+    <footer class="footer">
+        <div class="foot-cont">
+            <div class="left-foot fade-in">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+            <div class="rigth-foot fade-in">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fadeElements = document.querySelectorAll('.fade-in');
+    
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Stop observing after animation plays
+                    }
+                });
+            }, { threshold: 0.2 });
+    
+            fadeElements.forEach(el => observer.observe(el));
+        });
+    </script>
+    
+    
 </body>
 </html>
