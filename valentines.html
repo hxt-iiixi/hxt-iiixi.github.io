@@ -14,5 +14,52 @@
             <button id="no-btn">Hindi😠</button>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+        const noBtn = document.getElementById("no-btn");
+const yesBtn = document.getElementById("yes-btn");
+
+const noTexts = ["Sigurado ka?", "Talaga?", "Weh?", "Di nga?", "Ayaw mo talaga?", "Last chance!", "Please?", "Mahal mo ako diba? 😢", "Bat ka nag-no?", "Akala ko ba mahal mo ako?"];
+let noTextIndex = 0;
+
+noBtn.addEventListener("click", () => {
+    if (noTextIndex < noTexts.length) {
+        noBtn.textContent = noTexts[noTextIndex];
+        noTextIndex++;
+    } 
+    if (noTextIndex === noTexts.length) {
+        noBtn.textContent = "PINDOTIN MO YUNG OO";
+        noBtn.classList.add("yes-btn"); 
+        noBtn.removeEventListener("click", noClickHandler); 
+        noBtn.addEventListener("click", yesClickHandler); 
+    }
+});
+
+function yesClickHandler() {
+    document.body.innerHTML = `
+        <div class="container">
+            <h1>Dapat lang!! joke hehehe<br> I lovee youuu soo muchhh babyyy</h1>
+            <button><a href="index.html" class="links">HOME</a></button>
+        </div>`;
+
+    createHeartRain();
+}
+
+yesBtn.addEventListener("click", yesClickHandler);
+
+function createHeartRain() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        document.body.appendChild(heart);
+
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+
+        setTimeout(() => {
+            heart.remove();
+        }, 5000);
+    }, 200);
+}
+    </script>
 </html>
