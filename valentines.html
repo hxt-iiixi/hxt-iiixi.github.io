@@ -58,6 +58,7 @@
         const heartShape = document.getElementById("heart-shape");
         const container = document.getElementById("main-container");
         const noBtn = document.getElementById("no-btn");
+        const yesBtn = document.getElementById("yes-btn");
         
         const noTexts = ["Sigurado ka?", "Talaga?", "Weh?", "Di nga?", "Ayaw mo talaga?", "Last chance!", "Please?", "Mahal mo ako diba? 😢", "Bat ka nag-no?", "Akala ko ba mahal mo ako?"];
         let noTextIndex = 0;
@@ -121,6 +122,14 @@
                 emoji.remove();
             }, 1000);
         }
+
+        yesBtn.addEventListener("click", () => {
+            document.body.innerHTML = `
+                <div class="container">
+                    <h1>Dapat lang!! joke hehehe<br> I lovee youuu soo muchhh babyyy 💖</h1>
+                    <button><a href="index.html" class="links">HOME</a></button>
+                </div>`;
+        });
     </script>
 </body>
 </html>
