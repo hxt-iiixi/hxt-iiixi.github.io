@@ -5,9 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Be My Valentine? 💖</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .heart-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .heart-shape {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 0, 0, 0.5);
+            clip-path: path("M50 15C30 -10 0 15 0 45C0 75 25 90 50 100C75 90 100 75 100 45C100 15 70 -10 50 15Z");
+            transition: transform 0.2s;
+        }
+        .hidden {
+            display: none;
+        }
+        .confetti-heart, .confetti-angry {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.8;
+            animation: burst 1s linear;
+        }
+        @keyframes burst {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
+    <div class="heart-container" id="big-heart">
+        <div class="heart-shape" id="heart-shape"></div>
+    </div>
+    <div class="container hidden" id="main-container">
         <h1>Will you be my Valentine, My love? 💕</h1>
         <div class="buttons">
             <button id="yes-btn">Oo 😍</button>
@@ -15,51 +53,74 @@
         </div>
     </div>
     <script>
+        let clickCount = 0;
+        const bigHeart = document.getElementById("big-heart");
+        const heartShape = document.getElementById("heart-shape");
+        const container = document.getElementById("main-container");
         const noBtn = document.getElementById("no-btn");
-const yesBtn = document.getElementById("yes-btn");
+        
+        const noTexts = ["Sigurado ka?", "Talaga?", "Weh?", "Di nga?", "Ayaw mo talaga?", "Last chance!", "Please?", "Mahal mo ako diba? 😢", "Bat ka nag-no?", "Akala ko ba mahal mo ako?"];
+        let noTextIndex = 0;
 
-const noTexts = ["Sigurado ka?", "Talaga?", "Weh?", "Di nga?", "Ayaw mo talaga?", "Last chance!", "Please?", "Mahal mo ako diba? 😢", "Bat ka nag-no?", "Akala ko ba mahal mo ako?"];
-let noTextIndex = 0;
+        bigHeart.addEventListener("click", () => {
+            clickCount++;
+            heartShape.style.transform = `scale(${1 + clickCount * 0.1})`;
+            
+            if (clickCount >= 10) {
+                burstHeart();
+            }
+        });
 
-noBtn.addEventListener("click", () => {
-    if (noTextIndex < noTexts.length) {
-        noBtn.textContent = noTexts[noTextIndex];
-        noTextIndex++;
-    } 
-    if (noTextIndex === noTexts.length) {
-        noBtn.textContent = "PINDOTIN MO YUNG OO";
-        noBtn.classList.add("yes-btn"); 
-        noBtn.removeEventListener("click", noClickHandler); 
-        noBtn.addEventListener("click", yesClickHandler); 
-    }
-});
+        function burstHeart() {
+            bigHeart.remove();
+            for (let i = 0; i < 20; i++) {
+                createConfettiHeart();
+            }
+            container.classList.remove("hidden");
+        }
 
-function yesClickHandler() {
-    document.body.innerHTML = `
-        <div class="container">
-            <h1>Dapat lang!! joke hehehe<br> I lovee youuu soo muchhh babyyy</h1>
-            <button><a href="index.html" class="links">HOME</a></button>
-        </div>`;
+        function createConfettiHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("confetti-heart");
+            heart.innerHTML = "❤️";
+            document.body.appendChild(heart);
+            
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.top = Math.random() * window.innerHeight + "px";
+            heart.style.animationDuration = Math.random() * 1 + 1 + "s";
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 1000);
+        }
 
-    createHeartRain();
-}
+        noBtn.addEventListener("click", () => {
+            if (noTextIndex < noTexts.length) {
+                noBtn.textContent = noTexts[noTextIndex];
+                noTextIndex++;
+            }
+            if (noTextIndex === noTexts.length) {
+                noBtn.textContent = "PINDOTIN MO YUNG OO";
+            }
+            for (let i = 0; i < 20; i++) {
+                createConfettiAngry();
+            }
+        });
 
-yesBtn.addEventListener("click", yesClickHandler);
-
-function createHeartRain() {
-    setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
-        document.body.appendChild(heart);
-
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.animationDuration = Math.random() * 2 + 3 + "s";
-
-        setTimeout(() => {
-            heart.remove();
-        }, 5000);
-    }, 200);
-}
+        function createConfettiAngry() {
+            const emoji = document.createElement("div");
+            emoji.classList.add("confetti-angry");
+            emoji.innerHTML = Math.random() > 0.5 ? "😠" : "😢";
+            document.body.appendChild(emoji);
+            
+            emoji.style.left = Math.random() * window.innerWidth + "px";
+            emoji.style.top = Math.random() * window.innerHeight + "px";
+            emoji.style.animationDuration = Math.random() * 1 + 1 + "s";
+            
+            setTimeout(() => {
+                emoji.remove();
+            }, 1000);
+        }
     </script>
+</body>
 </html>
