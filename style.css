@@ -256,11 +256,11 @@ button:hover{
     .sub-cont {
         flex-direction: column;
         gap: 50px;
-        width: 100%; /* Ensures it adapts */
+        width: 100%; 
     }
 
     .sub-pic {
-        width: 80%; /* Makes it responsive */
+        width: 80%; 
         max-width: 200px;
         height: auto;
     }
