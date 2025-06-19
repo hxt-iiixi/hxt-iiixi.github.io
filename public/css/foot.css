@@ -1,0 +1,45 @@
+
+.footer {
+    width: 100%;
+    min-height: 15vh; 
+    background-color: #AD8B73;
+    padding: 20px;
+}  
+
+.foot-cont {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 40px;
+}
+
+.left-foot, .rigth-foot {
+    flex: 1;
+    font-size: 16px;
+    min-width: 300px;
+    color: #EEEEEE;
+
+}
+.rigth-foot{
+    margin-right: 20px;
+}
+
+
+@media screen and (max-width: 800px) {
+    .foot-cont {
+        flex-direction: column; 
+        gap: 20px;
+        margin-right: 20px;
+    }
+
+    .left-foot, .rigth-foot {
+        font-size: 14px;
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .left-foot, .rigth-foot {
+        font-size: 12px;
+        margin-right: 20px;
+    }
+}

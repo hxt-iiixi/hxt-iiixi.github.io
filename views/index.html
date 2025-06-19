@@ -4,28 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/public/css/home.css">
+    <link rel="stylesheet" href="/public/css/nav.css">
+    <link rel="stylesheet" href="/public/css/foot.css">
+   
     <link href="https://fonts.cdnfonts.com/css/pemberton-marsden-script" rel="stylesheet">
 </head>
 <style>
     @import url('https://fonts.cdnfonts.com/css/pemberton-marsden-script');
 </style>
 
-
-
-
-
-
-
 <body>
-    <nav class="nav">
-        <ul class="nav-links">
-            <li><button><a href="index.html"  class="links">HOME</a></button></li>
-            <li><button><a href="gallery.html"  class="links">GALLERY</a></button></li>
-            <li><button><a href=".html"  class="links">Valentines</a></button></li>
-            <li><button><a href=""  class="links">TIMELINE</a></button></li>
-        </ul>
-    </nav>
+        <div id="navbar-placeholder"></div>
+
     <div class="hero-pic fade-in"> 
         <div class="pic-cont">  </div> 
            
@@ -71,22 +62,9 @@
             </div>
         </div>
     </footer>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const fadeElements = document.querySelectorAll('.fade-in');
-    
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Stop observing after animation plays
-                    }
-                });
-            }, { threshold: 0.2 });
-    
-            fadeElements.forEach(el => observer.observe(el));
-        });
-    </script>
+
+    <script src="/public/js/nav.js"></script>
+    <script src="/public/js/fade.js"></script>
     
     
 </body>

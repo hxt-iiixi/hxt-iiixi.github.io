@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery</title>
+  <link rel="stylesheet" href="/public/css/gallery.css" />
+  <link rel="stylesheet" href="/public/css/nav.css" />
+  <link rel="stylesheet" href="/public/css/foot.css" />
+  <link href="https://fonts.cdnfonts.com/css/pemberton-marsden-script" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <ul class="nav-links">
+      <li><button><a href="index.html" class="links">HOME</a></button></li>
+      <li><button><a href="gallery.html" class="links">GALLERY</a></button></li>
+      <li><button><a href="#" class="links" onclick="alert('Coming soon!')">TIMELINE</a></button></li>
+    </ul>
+  </nav>
+
+  <!-- Gallery -->
+  <section class="gallery">
+    <h2>GALLERY</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item fade-in">
+        <img src="/public/img/sample.png" data-caption="Beach Day" data-desc="Our first trip to the beach." alt="Photo 1">
+      </div>
+      <div class="gallery-item fade-in">
+        <img src="/public/img/sample.png" data-caption="Movie Night" data-desc="Watched our favorite romcom again!" alt="Photo 2">
+      </div>
+      <div class="gallery-item fade-in">
+        <img src="/public/img/sample.png" data-caption="Mirror Selfie" data-desc="You wore that cute denim jacket 😍" alt="Photo 3">
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox hidden">
+    <button class="nav-btn left-btn">&#10094;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" alt="Zoomed photo" />
+      <div class="caption-container">
+        <p id="lightbox-caption" class="caption"></p>
+        <p id="lightbox-desc" class="desc"></p>
+      </div>
+    </div>
+    <button class="nav-btn right-btn">&#10095;</button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="foot-cont">
+      <div class="left-foot fade-in">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+      </div>
+      <div class="rigth-foot fade-in">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      fadeElements.forEach(el => observer.observe(el));
+    });
+
+    const galleryItems = document.querySelectorAll(".gallery-item img");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxCaption = document.getElementById("lightbox-caption");
+    const lightboxDesc = document.getElementById("lightbox-desc");
+    const leftBtn = document.querySelector(".left-btn");
+    const rightBtn = document.querySelector(".right-btn");
+
+    let currentIndex = 0;
+
+    function showLightbox(index) {
+      currentIndex = index;
+      const img = galleryItems[index];
+      lightboxImg.src = img.src;
+      lightboxCaption.textContent = img.dataset.caption || "💖 Our memory 💖";
+      lightboxDesc.textContent = img.dataset.desc || "";
+      lightbox.classList.remove("hidden");
+    }
+
+    function hideLightbox() {
+      lightbox.classList.add("hidden");
+      lightboxImg.src = "";
+      lightboxCaption.textContent = "";
+      lightboxDesc.textContent = "";
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % galleryItems.length;
+      showLightbox(currentIndex);
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+      showLightbox(currentIndex);
+    }
+
+    galleryItems.forEach((img, index) => {
+      img.addEventListener("click", () => {
+        showLightbox(index);
+      });
+    });
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox || e.target === lightboxImg) {
+        hideLightbox();
+      }
+    });
+
+    rightBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      nextImage();
+    });
+
+    leftBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      prevImage();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.classList.contains("hidden")) return;
+      if (e.key === "ArrowRight") nextImage();
+      if (e.key === "ArrowLeft") prevImage();
+      if (e.key === "Escape") hideLightbox();
+    });
+
+    // Swipe with animation
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    lightbox.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    lightbox.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleGesture();
+    }, false);
+
+    function handleGesture() {
+      const threshold = 50;
+      const swipeDistance = touchStartX - touchEndX;
+      if (Math.abs(swipeDistance) > threshold) {
+        swipeDistance > 0 ? animateSwipe("left") : animateSwipe("right");
+      }
+    }
+
+    function animateSwipe(direction) {
+      const distance = direction === "left" ? -100 : 100;
+      lightboxImg.style.transform = `translateX(${distance}vw)`;
+
+      setTimeout(() => {
+        lightboxImg.style.transition = "none";
+        lightboxImg.style.transform = `translateX(${direction === "left" ? 100 : -100}vw)`;
+
+        direction === "left" ? nextImage() : prevImage();
+
+        requestAnimationFrame(() => {
+          lightboxImg.style.transition = "transform 0.3s ease";
+          lightboxImg.style.transform = "translateX(0)";
+        });
+      }, 300);
+    }
+  </script>
+</body>
+</html>
