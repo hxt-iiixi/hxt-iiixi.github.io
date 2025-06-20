@@ -11,6 +11,17 @@
 </head>
 
 <body>
+  <svg width="0" height="0" style="position:absolute;">
+    <defs>
+      <clipPath id="heart" clipPathUnits="objectBoundingBox">
+        <path d="M0.5,0.15 
+          C0.5,0, 0,0, 0,0.375 
+          C0,0.75, 0.5,1, 0.5,1 
+          C0.5,1, 1,0.75, 1,0.375 
+          C1,0, 0.5,0, 0.5,0.15 Z"/>
+      </clipPath>
+    </defs>
+  </svg>
   <!-- Navigation -->
   <nav class="nav">
     <ul class="nav-links">
@@ -24,23 +35,41 @@
   <section class="gallery">
     <h2>GALLERY</h2>
     <div class="gallery-grid">
-      <div class="gallery-item fade-in">
-        <img src="/public/img/sample.png" data-caption="Beach Day" data-desc="Our first trip to the beach." alt="Photo 1">
-      </div>
-      <div class="gallery-item fade-in">
-        <img src="/public/img/sample.png" data-caption="Movie Night" data-desc="Watched our favorite romcom again!" alt="Photo 2">
-      </div>
-      <div class="gallery-item fade-in">
-        <img src="/public/img/sample.png" data-caption="Mirror Selfie" data-desc="You wore that cute denim jacket 😍" alt="Photo 3">
+   <div class="gallery-item fade-in">
+      <div class="heart-wrapper">
+        <img src="/public/img/sample.png" alt="Photo 1">
       </div>
     </div>
+       <div class="gallery-item fade-in">
+      <div class="heart-wrapper">
+        <img src="/public/img/sample.png" alt="Photo 1">
+      </div>
+    </div>
+       <div class="gallery-item fade-in">
+      <div class="heart-wrapper">
+        <img src="/public/img/sample.png" alt="Photo 1">
+      </div>
+    </div>
+       <div class="gallery-item fade-in">
+      <div class="heart-wrapper">
+        <img src="/public/img/sample.png" alt="Photo 1">
+      </div>
+    </div>
+       <div class="gallery-item fade-in">
+      <div class="heart-wrapper">
+        <img src="/public/img/sample.png" alt="Photo 1">
+      </div>
+    </div>
+
   </section>
 
   <!-- Lightbox -->
   <div id="lightbox" class="lightbox hidden">
     <button class="nav-btn left-btn">&#10094;</button>
     <div class="lightbox-content">
-      <img id="lightbox-img" alt="Zoomed photo" />
+      <div class="slide-wrapper" id="slide-wrapper">
+        <img id="lightbox-img" alt="Zoomed photo" />
+      </div>
       <div class="caption-container">
         <p id="lightbox-caption" class="caption"></p>
         <p id="lightbox-desc" class="desc"></p>
@@ -126,20 +155,22 @@
 
     rightBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      nextImage();
+      animateSwipe("left");
     });
 
     leftBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      prevImage();
+      animateSwipe("right");
     });
 
-    document.addEventListener("keydown", (e) => {
+
+   document.addEventListener("keydown", (e) => {
       if (lightbox.classList.contains("hidden")) return;
-      if (e.key === "ArrowRight") nextImage();
-      if (e.key === "ArrowLeft") prevImage();
+      if (e.key === "ArrowRight") animateSwipe("left");
+      if (e.key === "ArrowLeft") animateSwipe("right");
       if (e.key === "Escape") hideLightbox();
     });
+
 
     // Swipe with animation
     let touchStartX = 0;
@@ -163,21 +194,64 @@
     }
 
     function animateSwipe(direction) {
-      const distance = direction === "left" ? -100 : 100;
-      lightboxImg.style.transform = `translateX(${distance}vw)`;
+      const wrapper = document.getElementById("slide-wrapper");
+
+      if (wrapper.classList.contains("animating")) return;
+      wrapper.classList.add("animating");
+
+      const outDir = direction === "left" ? "-100%" : "100%";
+      const inDir = direction === "left" ? "100%" : "-100%";
+
+      // Animate out
+      wrapper.style.transition = "transform 0.3s ease";
+      wrapper.style.transform = `translateX(${outDir})`;
 
       setTimeout(() => {
-        lightboxImg.style.transition = "none";
-        lightboxImg.style.transform = `translateX(${direction === "left" ? 100 : -100}vw)`;
+        // Immediately jump to opposite side (off-screen)
+        wrapper.style.transition = "none";
 
-        direction === "left" ? nextImage() : prevImage();
+        currentIndex = direction === "left"
+          ? (currentIndex + 1) % galleryItems.length
+          : (currentIndex - 1 + galleryItems.length) % galleryItems.length;
 
+        const img = galleryItems[currentIndex];
+        lightboxImg.src = img.src;
+        typeText(lightboxCaption, img.dataset.caption || "💖 Our memory 💖", 25);
+        lightboxDesc.textContent = img.dataset.desc || "";
+
+        // Move wrapper off-screen from other side
+        wrapper.style.transform = `translateX(${inDir})`;
+
+        // Animate back to center
         requestAnimationFrame(() => {
-          lightboxImg.style.transition = "transform 0.3s ease";
-          lightboxImg.style.transform = "translateX(0)";
+          wrapper.style.transition = "transform 0.3s ease";
+          wrapper.style.transform = "translateX(0)";
         });
+
+        // Allow future swipes after animation completes
+        setTimeout(() => {
+          wrapper.classList.remove("animating");
+        }, 300);
       }, 300);
     }
+
+    function typeText(element, text, speed = 150) {
+      element.textContent = "";
+      let index = 0;
+
+      function type() {
+        if (index < text.length) {
+          element.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, speed);
+        }
+      }
+
+      type();
+    }
+
+
+
   </script>
 </body>
 </html>

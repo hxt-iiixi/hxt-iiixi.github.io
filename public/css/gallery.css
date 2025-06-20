@@ -48,24 +48,99 @@ body {
   max-width: 1200px;
   padding: 0 20px;
 }
+.heart-wrapper {
+  width: 100%;
+  height: 100%;
+  clip-path: url(#heart);
+  -webkit-clip-path: url(#heart); /* for Safari */
+  transition: transform 0.4s ease;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 12px rgba(255, 105, 180, 0.3);
+}
+
+.heart-wrapper:hover {
+  animation: neonPulse 1.5s infinite ease-in-out;
+  transform: scale(1.05);
+}
+
+.heart-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
 /* Image Styles */
-.gallery-item img {
-  border-radius: 10px;
-  border: 3px solid #AD8B73;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  filter: grayscale(1);
-  transition: transform 0.6s ease;
+.gallery-item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  z-index: 0;
 }
 
-.gallery-item img:hover {
-  z-index: 100;
-  transform: scale(1.1);
-  filter: grayscale(0);
-  filter: contrast(120%);
+/* Heart border outline */
+.gallery-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: 3px solid rgba(255, 105, 180, 0.3); /* pink border */
+  clip-path: url(#heart);
+  pointer-events: none;
+  box-shadow: 0 0 15px rgba(255, 20, 147, 0.5); /* initial soft glow */
+  transition: box-shadow 0.3s ease;
 }
+
+/* Neon pulsing animation on hover */
+.gallery-item:hover::before {
+  animation: neonPulse 1.5s infinite ease-in-out;
+}
+
+/* Image with heart shape */
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  clip-path: url(#heart);
+  display: block;
+  transition: transform 0.4s ease, filter 0.4s ease;
+  z-index: 1;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.2) contrast(1.1);
+}
+
+
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
+  100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+}
+
+@keyframes neonPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 20, 147, 0.5),
+                0 0 20px rgba(255, 20, 147, 0.6),
+                0 0 30px rgba(255, 20, 147, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 20, 147, 0.9),
+                0 0 45px rgba(255, 20, 147, 1),
+                0 0 60px rgba(255, 20, 147, 1);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 20, 147, 0.5),
+                0 0 20px rgba(255, 20, 147, 0.6),
+                0 0 30px rgba(255, 20, 147, 0.7);
+  }
+}
+
+
+
 
 /* Lightbox */
 .lightbox {
@@ -87,6 +162,19 @@ body {
   flex-direction: column;
   align-items: center;
 }
+.slide-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.slide-wrapper img {
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
 
 .lightbox img {
   max-width: 90vw;
@@ -95,6 +183,7 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   animation: zoomIn 0.35s ease forwards;
    transition: transform 0.3s ease;
+    will-change: transform;
 }
 
 .hidden {

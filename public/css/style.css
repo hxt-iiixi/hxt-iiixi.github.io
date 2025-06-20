@@ -359,7 +359,7 @@ button:hover{
 
 @media (max-width: 1200px) { 
     .gallery-grid {
-        width: calc(100vw - 15px);
+        width: 100%;
         padding-right: 25px;
     }
 }
